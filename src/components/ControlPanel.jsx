@@ -14,6 +14,12 @@ export const ControlPanel = ({
 }) => {
   return (
     <>
+      {/* Top Left: Time Display (Fully Transparent and shifted right) */}
+      <div className="fixed top-8 left-20 z-50 flex flex-col items-start justify-center animate-fade-in-up">
+        <span className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em] mb-1">Local Time</span>
+        <span className="text-white font-mono text-4xl font-bold tracking-tight opacity-90">{timeDisplay}</span>
+      </div>
+
       {/* Top Right: Controls */}
       <div className="fixed top-6 right-6 z-50 flex gap-4">
         {/* Weather Selector */}
@@ -59,20 +65,9 @@ export const ControlPanel = ({
         </button>
       </div>
 
-      {/* Bottom Center: Slider Control Panel (Only visible when clear) */}
+      {/* Bottom Center: Slider Control Panel (Minimal & More Transparent) */}
       {weather === 'clear' && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-2xl glass-panel px-8 py-5 rounded-[2rem] transition-all duration-500 animate-fade-in-up">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <i className="fas fa-sun text-yellow-400 animate-spin-slow"></i>
-              <span className="text-white/90 text-xs font-bold uppercase tracking-[0.3em]">{phase} phase</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-white/30 text-[10px] font-black uppercase tracking-widest">Local Time</span>
-              <span className="text-white font-mono text-xl font-bold">{timeDisplay}</span>
-            </div>
-          </div>
-
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-[85%] max-w-xl bg-white/5 backdrop-blur-md px-8 py-4 rounded-3xl border border-white/5 transition-all duration-500 animate-fade-in-up">
           <div className="relative group px-2">
             <input
               type="range"
@@ -81,7 +76,7 @@ export const ControlPanel = ({
               step="0.1"
               value={time}
               onChange={(e) => onTimeChange(parseFloat(e.target.value))}
-              className="w-full cursor-pointer"
+              className="w-full cursor-pointer opacity-70 hover:opacity-100 transition-opacity"
             />
             
             <div className="flex justify-between text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mt-4">
