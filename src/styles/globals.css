@@ -163,6 +163,20 @@ input[type='range']::-moz-range-thumb:hover {
   animation: drip 2s ease-in forwards;
 }
 
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-5px, -5px); }
+  20% { transform: translate(5px, 5px); }
+  30% { transform: translate(-5px, 5px); }
+  40% { transform: translate(5px, -5px); }
+  50% { transform: translate(-2px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
 @keyframes thunder-flash {
   0% { opacity: 0; }
   2% { opacity: 1; }
@@ -179,24 +193,6 @@ input[type='range']::-moz-range-thumb:hover {
   opacity: 0;
   pointer-events: none;
   z-index: 9999;
-}
-
-@keyframes fog-drift {
-  0% { transform: translate(-15%, -10%) scale(1.2); }
-  50% { transform: translate(15%, 10%) scale(1.4); }
-  100% { transform: translate(-15%, -10%) scale(1.2); }
-}
-
-.fog-overlay {
-  position: absolute;
-  inset: -50%;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%);
-  filter: blur(80px);
-  opacity: 0;
-  transition: opacity 4s ease-in-out;
-  pointer-events: none;
-  z-index: 15;
-  animation: fog-drift 30s ease-in-out infinite;
 }
 
 .weather-active {
