@@ -1,0 +1,9 @@
+{
+  "schedule": "weekly",
+  "ignoredExtensions": [
+    ".gif",
+    ".svg"
+  ],
+  "aggressive": false,
+  "compressPngLossless": true
+}
