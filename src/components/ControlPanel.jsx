@@ -1,135 +1,105 @@
 import React from 'react';
 
-export const ControlPanel = ({ time, timeDisplay, onTimeChange, phase }) => {
-  const previewCards = [
-    { 
-      id: 1,
-      label: '早朝',
-      labelKr: '이른아침',
-      time: 5,
-      gradient: 'from-purple-400 to-orange-400',
-      icon: '🌙'
-    },
-    { 
-      id: 2,
-      label: '朝',
-      labelKr: '아침',
-      time: 7.25,
-      gradient: 'from-orange-400 to-yellow-300',
-      icon: '🌅'
-    },
-    { 
-      id: 3,
-      label: '昼',
-      labelKr: '낮',
-      time: 12,
-      gradient: 'from-blue-400 to-cyan-200',
-      icon: '☀️'
-    },
-    { 
-      id: 4,
-      label: '夕方',
-      labelKr: '저녁',
-      time: 17.75,
-      gradient: 'from-orange-400 to-purple-500',
-      icon: '🌅'
-    },
-    { 
-      id: 5,
-      label: '夜',
-      labelKr: '밤',
-      time: 20.5,
-      gradient: 'from-indigo-600 to-slate-800',
-      icon: '🌙'
-    },
-    { 
-      id: 6,
-      label: '深夜',
-      labelKr: '자정',
-      time: 23.25,
-      gradient: 'from-slate-900 to-indigo-900',
-      icon: '⭐'
-    },
-  ];
-
+export const ControlPanel = ({ 
+  time, 
+  timeDisplay, 
+  onTimeChange, 
+  phase, 
+  region, 
+  onRegionChange,
+  weather,
+  onWeatherChange,
+  isSoundEnabled,
+  onToggleSound
+}) => {
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-30 p-6">
-      <div className="control-panel px-8 py-8 mx-auto max-w-6xl">
-        {/* Date and Time Display */}
-        <div className="grid grid-cols-3 gap-8 mb-8">
-          {/* Left: Current Time */}
-          <div>
-            <div className="text-sm font-semibold text-gray-600 mb-2">現在時刻</div>
-            <div className="text-5xl font-bold text-blue-600 font-mono tracking-tight">
-              {timeDisplay}
-            </div>
-          </div>
-
-          {/* Center: Empty */}
-          <div className="flex items-center justify-center">
-            <div className="h-12 w-px bg-gray-300 opacity-50"></div>
-          </div>
-
-          {/* Right: Real Time Button */}
-          <div className="flex items-end justify-end">
-            <button className="flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold hover:shadow-lg transition-all hover:scale-105 active:scale-95">
-              <span>▶</span>
-              <span className="text-sm">リアルタイム</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Time Slider */}
-        <div className="mb-6">
-          <input
-            type="range"
-            min="0"
-            max="24"
-            step="0.1"
-            value={time}
-            onChange={(e) => onTimeChange(parseFloat(e.target.value))}
-            className="w-full h-2 rounded-full cursor-pointer"
-            style={{
-              background: 'linear-gradient(to right, #991b1b 0%, #dc2626 8%, #f97316 20%, #fbbf24 40%, #60a5fa 60%, #818cf8 80%, #312e81 100%)',
-            }}
-          />
-          <div className="flex justify-between text-xs font-semibold text-gray-700 mt-2 px-1">
-            <span>00:00</span>
-            <span>06:00</span>
-            <span>12:00</span>
-            <span>18:00</span>
-            <span>24:00</span>
-          </div>
-        </div>
-
-        {/* Preview Time Cards */}
-        <div className="grid grid-cols-6 gap-3">
-          {previewCards.map((card) => (
+    <>
+      {/* Top Right: Controls */}
+      <div className="fixed top-6 right-6 z-50 flex gap-4">
+        {/* Weather Selector */}
+        <div className="flex gap-2 p-1.5 glass-panel rounded-2xl border border-white/10">
+          {[
+            { id: 'clear', icon: 'fa-sun', color: 'text-yellow-400' },
+            { id: 'rain', icon: 'fa-cloud-showers-heavy', color: 'text-blue-400' },
+            { id: 'storm', icon: 'fa-bolt-lightning', color: 'text-purple-400' },
+            { id: 'flood', icon: 'fa-water', color: 'text-cyan-400' }
+          ].map((w) => (
             <button
-              key={card.id}
-              onClick={() => onTimeChange(card.time)}
-              className="group relative rounded-2xl overflow-hidden transform transition-all hover:scale-105 active:scale-95 focus:outline-none"
+              key={w.id}
+              onClick={() => onWeatherChange(w.id)}
+              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                weather === w.id ? 'bg-white/10 shadow-lg scale-110' : 'opacity-40 hover:opacity-100'
+              }`}
             >
-              <div className={`relative h-24 bg-gradient-to-br ${card.gradient} flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-shadow`}>
-                <span className="text-3xl drop-shadow-lg">{card.icon}</span>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent px-2 py-2 text-center">
-                <p className="text-white font-semibold text-xs">{card.label}</p>
-                <p className="text-gray-200 text-xs">{card.time.toFixed(2).replace('.', ':')}</p>
-              </div>
+              <i className={`fas ${w.icon} ${weather === w.id ? w.color : 'text-white'} text-lg`}></i>
             </button>
           ))}
         </div>
 
-        {/* Recommended Times */}
-        <div className="mt-6 text-left">
-          <p className="text-xs font-semibold text-gray-600 mb-2">おすすめの時間</p>
-          <div className="text-xs text-gray-500 flex items-center gap-2">
-            <span>✨</span>
-            <span>Golden hour: 05:30 - 08:00, 17:00 - 20:00</span>
+        {/* Sound Toggle */}
+        <button 
+          onClick={onToggleSound}
+          className={`glass-panel w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 hover:scale-110 active:scale-90 group relative ${isSoundEnabled ? 'border-blue-500/50' : 'border-white/10'}`}
+        >
+          <i className={`fas ${isSoundEnabled ? 'fa-volume-high text-blue-400' : 'fa-volume-xmark text-white/40'} text-xl mb-1 group-hover:scale-110 transition-transform`}></i>
+          <span className="text-[8px] font-bold text-white/60 uppercase tracking-tighter">Sound</span>
+          {isSoundEnabled && <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-[#1a1a1a] animate-pulse"></div>}
+        </button>
+
+        {/* Region Selector */}
+        <button 
+          onClick={() => onRegionChange(region === 'jp' ? 'lk' : 'jp')}
+          className="glass-panel w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 hover:rotate-12 hover:scale-110 active:scale-90 group relative"
+        >
+          <i className={`fas ${region === 'jp' ? 'fa-location-dot text-red-400' : 'fa-location-dot text-orange-400'} text-xl mb-1 group-hover:scale-125 transition-transform`}></i>
+          <span className="text-[9px] font-bold text-white/60 uppercase tracking-tighter">
+            {region === 'jp' ? 'JP' : 'LK'}
+          </span>
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[#1a1a1a] animate-pulse"></div>
+        </button>
+      </div>
+
+      {/* Bottom Center: Slider Control Panel (Only visible when clear) */}
+      {weather === 'clear' && (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-2xl glass-panel px-8 py-5 rounded-[2rem] transition-all duration-500 animate-fade-in-up">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <i className="fas fa-sun text-yellow-400 animate-spin-slow"></i>
+              <span className="text-white/90 text-xs font-bold uppercase tracking-[0.3em]">{phase} phase</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-white/30 text-[10px] font-black uppercase tracking-widest">Local Time</span>
+              <span className="text-white font-mono text-xl font-bold">{timeDisplay}</span>
+            </div>
+          </div>
+
+          <div className="relative group px-2">
+            <div className="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/10">
+              <div 
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 via-purple-500 to-orange-400 transition-all duration-300"
+                style={{ width: `${(time / 24) * 100}%` }}
+              ></div>
+              <input
+                type="range"
+                min="0"
+                max="24"
+                step="0.1"
+                value={time}
+                onChange={(e) => onTimeChange(parseFloat(e.target.value))}
+                className="absolute top-0 left-0 w-full h-full cursor-pointer z-10 appearance-none bg-transparent"
+              />
+            </div>
+            
+            <div className="flex justify-between text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mt-4">
+              <span className={time < 6 ? 'text-white/80' : ''}>Midnight</span>
+              <span className={time >= 6 && time < 12 ? 'text-white/80' : ''}>Morning</span>
+              <span className={time >= 12 && time < 18 ? 'text-white/80' : ''}>Noon</span>
+              <span className={time >= 18 && time < 21 ? 'text-white/80' : ''}>Dusk</span>
+              <span className={time >= 21 ? 'text-white/80' : ''}>Night</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
