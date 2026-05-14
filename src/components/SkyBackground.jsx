@@ -47,7 +47,7 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
   };
 
   return (
-    <div className={`absolute inset-0 sky-transition bg-gradient-to-b ${getGradient()}`}>
+    <div className={`absolute inset-0 sky-transition bg-gradient-to-b ${getGradient()} ${isThunderFlash ? 'animate-shake' : ''}`}>
       
       {/* Dynamic Background Image (Only visible when clear) */}
       {imageUrl && weather === 'clear' && (
@@ -66,7 +66,6 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
       )}
 
       {/* Weather Visual Effects Layers */}
-      <div className={`fog-overlay ${['rain', 'storm', 'flood'].includes(weather) ? 'weather-active' : ''}`} />
       
       {/* Rain Effect (Falling) */}
       {['rain', 'storm', 'flood'].includes(weather) && (
