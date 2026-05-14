@@ -165,40 +165,65 @@ input[type='range']::-moz-range-thumb:hover {
 
 @keyframes thunder-flash {
   0% { opacity: 0; }
-  10% { opacity: 0.8; }
-  12% { opacity: 0.2; }
-  14% { opacity: 0.9; }
-  25% { opacity: 0; }
+  2% { opacity: 1; }
+  5% { opacity: 0.2; }
+  7% { opacity: 1; }
+  15% { opacity: 0; }
   100% { opacity: 0; }
 }
 
 .thunder-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: white;
   opacity: 0;
   pointer-events: none;
-  z-index: 10;
+  z-index: 9999;
 }
 
-@keyframes fog-move {
-  from { transform: translateX(-20%); opacity: 0.3; }
-  to { transform: translateX(20%); opacity: 0.6; }
+@keyframes fog-drift {
+  0% { transform: translate(-15%, -10%) scale(1.2); }
+  50% { transform: translate(15%, 10%) scale(1.4); }
+  100% { transform: translate(-15%, -10%) scale(1.2); }
 }
 
 .fog-overlay {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.5) 100%);
-  filter: blur(40px);
+  inset: -50%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%);
+  filter: blur(80px);
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 4s ease-in-out;
   pointer-events: none;
-  z-index: 4;
+  z-index: 15;
+  animation: fog-drift 30s ease-in-out infinite;
 }
 
 .weather-active {
-  opacity: 1;
+  opacity: 0.85;
+}
+
+/* Enhanced Droplets */
+.screen-droplet {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.2),
+    inset 3px 3px 6px rgba(255,255,255,0.8),
+    0 8px 16px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+@keyframes drip-long {
+  0% { transform: translateY(0) scaleX(1); opacity: 0.8; }
+  15% { transform: translateY(20px) scaleX(0.9); opacity: 0.8; }
+  100% { transform: translateY(400px) scaleX(0.4); opacity: 0; }
+}
+
+.screen-droplet.dripping {
+  animation: drip-long 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 /* Custom transitions */

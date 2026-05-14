@@ -71,15 +71,15 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
       {/* Rain Effect (Falling) */}
       {['rain', 'storm', 'flood'].includes(weather) && (
         <div className="rain-overlay z-20">
-          {[...Array(weather === 'rain' ? 60 : 120)].map((_, i) => (
+          {[...Array(weather === 'rain' ? 100 : 250)].map((_, i) => (
             <div 
               key={i} 
               className="rain-drop" 
               style={{ 
                 left: `${Math.random() * 100}%`, 
                 animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${Math.random() * 0.2 + 0.4}s`,
-                opacity: Math.random() * 0.4 + 0.2
+                animationDuration: `${Math.random() * 0.2 + 0.3}s`,
+                opacity: Math.random() * 0.5 + 0.3
               }} 
             />
           ))}
@@ -89,24 +89,24 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
       {/* Screen Droplets Effect (Water on lens) */}
       {['rain', 'storm', 'flood'].includes(weather) && (
         <div className="screen-droplets-container">
-          {[...Array(40)].map((_, i) => (
+          {[...Array(weather === 'rain' ? 50 : 100)].map((_, i) => (
             <div 
               key={i} 
-              className={`screen-droplet ${Math.random() > 0.8 ? 'dripping' : ''}`}
+              className={`screen-droplet ${Math.random() > 0.6 ? 'dripping' : ''}`}
               style={{ 
                 left: `${Math.random() * 100}%`, 
                 top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 6 + 2}px`,
-                height: `${Math.random() * 6 + 4}px`,
-                opacity: Math.random() * 0.5 + 0.1,
-                animationDelay: `${Math.random() * 5}s`
+                width: `${Math.random() * 10 + 5}px`,
+                height: `${Math.random() * 10 + 8}px`,
+                opacity: Math.random() * 0.7 + 0.3,
+                animationDelay: `${Math.random() * 10}s`
               }} 
             />
           ))}
         </div>
       )}
 
-      <div className={`thunder-overlay z-30 transition-opacity duration-75 ${isThunderFlash ? 'opacity-100' : 'opacity-0'}`} />
+      <div className={`thunder-overlay z-50 transition-opacity duration-75 ${isThunderFlash ? 'opacity-100' : 'opacity-0'}`} />
     </div>
   );
 };
