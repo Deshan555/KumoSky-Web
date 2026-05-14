@@ -20,11 +20,11 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Slider styling */
+/* ── Slider ─────────────────────────────────────────────────────────── */
 input[type='range'] {
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
+  height: 6px;
+  border-radius: 3px;
   outline: none;
   -webkit-appearance: none;
   background: linear-gradient(to right, #ec4899, #f97316, #fbbf24, #60a5fa, #818cf8);
@@ -32,89 +32,61 @@ input[type='range'] {
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow:
+    0 0 0 1.5px rgba(255,255,255,0.4),
+    0 0 18px rgba(255,255,255,0.25),
+    inset 0 1px 2px rgba(255,255,255,0.5);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 input[type='range']::-webkit-slider-thumb:hover {
   transform: scale(1.3);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.6),
+    0 0 28px rgba(255,255,255,0.45);
 }
 
 input[type='range']::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 18px rgba(255,255,255,0.25);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-input[type='range']::-moz-range-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
-
-/* Glassmorphism Styles */
+/* ── Glass panel ────────────────────────────────────────────────────── */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(40px) saturate(200%);
-  -webkit-backdrop-filter: blur(40px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 4px 24px -1px rgba(0, 0, 0, 0.3),
-    inset 0 0 20px 0 rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 4px 32px -2px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 -1px 0 rgba(0,0,0,0.1) inset;
 }
 
 .glass-panel:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 
-    0 10px 40px -2px rgba(0, 0, 0, 0.5),
-    inset 0 0 30px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 12px 48px -4px rgba(0, 0, 0, 0.55),
+    0 1px 0 rgba(255,255,255,0.1) inset;
 }
 
-@keyframes bounce-slow {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -10px); }
-}
-
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translate(-50%, 20px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.animate-bounce-slow {
-  animation: bounce-slow 4s ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.animate-spin-slow {
-  animation: spin-slow 8s linear infinite;
-}
-
-/* Weather Effects */
+/* ── Rain canvas (replace CSS drops with canvas — see RainCanvas.jsx) ── */
 .rain-overlay {
   position: absolute;
   inset: 0;
@@ -123,106 +95,287 @@ input[type='range']::-moz-range-thumb:hover {
   overflow: hidden;
 }
 
-@keyframes rain {
-  from { transform: translateY(-100vh); }
-  to { transform: translateY(100vh); }
-}
-
-.rain-drop {
-  position: absolute;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.6));
-  width: 1px;
-  height: 120px;
-  top: -120px;
-  animation: rain 0.6s linear infinite;
-}
-
-/* Screen Droplets Effect */
-.screen-droplets-container {
+/* ── Screen droplets — the glass surface effect ─────────────────────── */
+.droplets-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 25;
+  z-index: 20;
+  overflow: hidden;
 }
 
+/* Base droplet — realistic water on glass with light refraction */
 .screen-droplet {
   position: absolute;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(2px);
   border-radius: 50%;
-  box-shadow: 
-    inset 0 2px 4px rgba(255,255,255,0.4),
-    0 2px 4px rgba(0,0,0,0.1);
+  pointer-events: none;
+  will-change: transform, opacity;
+  opacity: 0;
+  animation: dropletAppearDisappear 15s ease-in-out infinite;
+
+  /* Layered gradient simulates internal light refraction */
+  background:
+    radial-gradient(circle at 38% 32%,
+      rgba(255, 255, 255, 0.90) 0%,
+      rgba(200, 225, 255, 0.55) 18%,
+      rgba(160, 200, 255, 0.20) 45%,
+      rgba(120, 170, 240, 0.08) 70%,
+      transparent 100%
+    );
+
+  /* Glass depth layers */
+  box-shadow:
+    inset -3px -4px 7px rgba(0, 0, 0, 0.22),
+    inset  2px  3px 5px rgba(255, 255, 255, 0.60),
+    inset -1px  0   3px rgba(140, 180, 255, 0.15),
+    0 3px 10px rgba(0, 0, 0, 0.22),
+    0 1px 3px  rgba(0, 0, 0, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(3.5px) brightness(1.08) saturate(1.4);
+  -webkit-backdrop-filter: blur(3.5px) brightness(1.08) saturate(1.4);
+  transform-origin: center bottom;
 }
 
-@keyframes drip {
-  to { transform: translateY(20px); opacity: 0; }
+/* Small droplets — less refraction */
+.screen-droplet.small {
+  background:
+    radial-gradient(circle at 40% 30%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(220, 235, 255, 0.50) 30%,
+      rgba(180, 210, 255, 0.12) 65%,
+      transparent 100%
+    );
+  box-shadow:
+    inset -1px -2px 3px rgba(0, 0, 0, 0.18),
+    inset  1px  1px 2px rgba(255, 255, 255, 0.70),
+    0 2px 6px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(2px) brightness(1.06);
 }
 
+/* Elongated dripping shape */
 .screen-droplet.dripping {
-  animation: drip 2s ease-in forwards;
+  border-radius: 50% 50% 58% 58% / 50% 50% 65% 65%;
+  background:
+    radial-gradient(ellipse at 38% 28%,
+      rgba(255, 255, 255, 0.90) 0%,
+      rgba(195, 220, 255, 0.45) 22%,
+      rgba(150, 195, 255, 0.15) 55%,
+      transparent 100%
+    );
+  animation: dropletDrip 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes dropletDrip {
+  0%   { border-radius: 50%; transform: scaleY(1); opacity: 0; }
+  5%   { opacity: 0.8; }
+  40%  { border-radius: 50% 50% 62% 62% / 50% 50% 70% 70%; transform: scaleY(1.08) scaleX(0.94); }
+  100% { border-radius: 50% 50% 58% 58% / 50% 50% 65% 65%; transform: scaleY(1.05) scaleX(0.96); opacity: 0; }
+}
+
+@keyframes dropletAppearDisappear {
+  0%   { transform: scale(0.5); opacity: 0; }
+  10%  { transform: scale(1);   opacity: 0.8; }
+  80%  { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
+/* Water trail left behind dripping drop */
+.droplet-trail {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+  background: linear-gradient(
+    to bottom,
+    rgba(200, 225, 255, 0.55) 0%,
+    rgba(180, 210, 255, 0.35) 40%,
+    rgba(160, 200, 255, 0.10) 80%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  backdrop-filter: blur(1.5px);
+}
+
+/* Impact ripple when a drop hits the glass */
+.drop-impact {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  animation: impactRipple 0.45s cubic-bezier(0.2, 0, 0.8, 1) forwards;
+  transform: translate(-50%, -50%);
+}
+
+.drop-impact::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: impactRipple2 0.55s 0.05s cubic-bezier(0.2, 0, 0.8, 1) forwards;
+}
+
+@keyframes impactRipple {
+  0%   { width: 4px; height: 4px; opacity: 0.85; margin: -2px; }
+  100% { width: 28px; height: 28px; opacity: 0;  margin: -14px; }
+}
+
+@keyframes impactRipple2 {
+  0%   { opacity: 0.4;  transform: scale(0.6); }
+  100% { opacity: 0;    transform: scale(2.2); }
+}
+
+/* Merged / large drop — more pronounced lens effect */
+.screen-droplet.merged {
+  background:
+    radial-gradient(circle at 35% 28%,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(210, 230, 255, 0.60) 15%,
+      rgba(170, 205, 255, 0.28) 38%,
+      rgba(130, 175, 255, 0.09) 62%,
+      transparent 100%
+    ),
+    radial-gradient(circle at 70% 72%,
+      rgba(100, 140, 220, 0.12) 0%,
+      transparent 55%
+    );
+  box-shadow:
+    inset -4px -5px 9px rgba(0, 0, 0, 0.25),
+    inset  3px  4px 7px rgba(255, 255, 255, 0.65),
+    inset -1px  0   4px rgba(120, 170, 255, 0.18),
+    0 5px 16px rgba(0, 0, 0, 0.28),
+    0 2px 5px  rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px) brightness(1.10) saturate(1.5);
+}
+
+/* Accumulated water film at bottom — subtle wet look */
+.water-film {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(180, 210, 255, 0.25) 20%,
+    rgba(200, 225, 255, 0.35) 50%,
+    rgba(180, 210, 255, 0.25) 80%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0;
+  transition: opacity 1.5s;
+}
+
+.water-film.visible { opacity: 1; }
+
+/* ── Thunder & Lightning ─────────────────────────────────────────────── */
+.thunder-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(240, 248, 255);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: screen;
+}
+
+.thunder-overlay.flash-1 { animation: thunderFlash1 0.3s ease-out forwards; }
+.thunder-overlay.flash-2 { animation: thunderFlash2 0.5s ease-out forwards; }
+
+@keyframes thunderFlash1 {
+  0%    { opacity: 0;   }
+  4%    { opacity: 0.95; }
+  8%    { opacity: 0.15; }
+  12%   { opacity: 0.90; }
+  22%   { opacity: 0;   }
+  100%  { opacity: 0;   }
+}
+
+@keyframes thunderFlash2 {
+  0%    { opacity: 0;   }
+  3%    { opacity: 0.80; }
+  6%    { opacity: 0.05; }
+  9%    { opacity: 0.65; }
+  13%   { opacity: 0.02; }
+  16%   { opacity: 0.45; }
+  26%   { opacity: 0;   }
+  100%  { opacity: 0;   }
+}
+
+/* ── Fog & Mist ──────────────────────────────────────────────────────── */
+.fog-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  opacity: 0;
+  transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fog-layer::before,
+.fog-layer::after {
+  content: '';
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(190, 210, 240, 0.22) 0%, transparent 70%);
+  animation: fogDrift 18s ease-in-out infinite alternate;
+}
+
+.fog-layer::before {
+  top: 20%;
+  height: 60%;
+  animation-delay: 0s;
+}
+
+.fog-layer::after {
+  top: 50%;
+  height: 70%;
+  animation-delay: -9s;
+  animation-direction: alternate-reverse;
+}
+
+.fog-layer.visible { opacity: 1; }
+
+@keyframes fogDrift {
+  0%   { transform: translateX(-8%) scaleX(1);    }
+  100% { transform: translateX(8%)  scaleX(1.08); }
+}
+
+/* ── Animations ─────────────────────────────────────────────────────── */
+@keyframes bounce-slow {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%       { transform: translate(-50%, -10px); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @keyframes shake {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-5px, -5px); }
-  20% { transform: translate(5px, 5px); }
-  30% { transform: translate(-5px, 5px); }
-  40% { transform: translate(5px, -5px); }
-  50% { transform: translate(-2px, -2px); }
-  100% { transform: translate(0, 0); }
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  10%  { transform: translate(-4px, -4px) rotate(-1deg); }
+  20%  { transform: translate(4px, 4px)  rotate(1deg); }
+  30%  { transform: translate(-4px, 4px) rotate(-0.5deg); }
+  40%  { transform: translate(4px, -4px) rotate(0.5deg); }
+  50%  { transform: translate(-2px, 0)   rotate(-0.3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
-.animate-shake {
-  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-}
+.animate-bounce-slow  { animation: bounce-slow  4s ease-in-out infinite; }
+.animate-fade-in-up   { animation: fade-in-up   0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+.animate-spin-slow    { animation: spin-slow     8s linear infinite; }
+.animate-shake        { animation: shake         0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
 
-@keyframes thunder-flash {
-  0% { opacity: 0; }
-  2% { opacity: 1; }
-  5% { opacity: 0.2; }
-  7% { opacity: 1; }
-  15% { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-.thunder-overlay {
-  position: fixed;
-  inset: 0;
-  background: white;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-.weather-active {
-  opacity: 0.85;
-}
-
-/* Enhanced Droplets */
-.screen-droplet {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(5px);
-  border-radius: 50%;
-  box-shadow: 
-    inset -3px -3px 6px rgba(0,0,0,0.2),
-    inset 3px 3px 6px rgba(255,255,255,0.8),
-    0 8px 16px rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.4);
-}
-
-@keyframes drip-long {
-  0% { transform: translateY(0) scaleX(1); opacity: 0.8; }
-  15% { transform: translateY(20px) scaleX(0.9); opacity: 0.8; }
-  100% { transform: translateY(400px) scaleX(0.4); opacity: 0; }
-}
-
-.screen-droplet.dripping {
-  animation: drip-long 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-}
-
-/* Custom transitions */
-.sky-transition {
-  transition: all 2s cubic-bezier(0.23, 1, 0.32, 1);
-}
+/* ── Scene transitions ───────────────────────────────────────────────── */
+.sky-transition { transition: all 2.5s cubic-bezier(0.23, 1, 0.32, 1); }

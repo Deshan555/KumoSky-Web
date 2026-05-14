@@ -35,12 +35,44 @@ export default function SkySimulatorPage() {
     thunderClap: new Audio(thunderClapAudio)
   });
 
-  // Setup audio properties
+  // Setup audio properties and Preload Assets
   useEffect(() => {
     Object.entries(audioRefs.current).forEach(([key, audio]) => {
-      audio.loop = key !== 'thunderClap'; // Thunder clap should not loop
+      audio.loop = key !== 'thunderClap';
       audio.volume = 0;
+      // Pre-fetch audio files
+      audio.load();
     });
+
+    // Preload all background images
+    const phases = ['night', 'earlyMorning', 'dawn', 'morning', 'noon', 'afternoon', 'lateAfternoon', 'sunset', 'dusk'];
+    const regions = ['jp', 'lk'];
+    const weatherPaths = ['slowRain', 'thunderStrome', 'flooding'];
+
+    const preloadImages = () => {
+      const allImageUrls = [];
+      
+      // Regular phases
+      phases.forEach(p => {
+        regions.forEach(r => {
+          allImageUrls.push(new URL(`../assets/images/${p}/${r}.png`, import.meta.url).href);
+        });
+      });
+
+      // Weather phases
+      weatherPaths.forEach(w => {
+        regions.forEach(r => {
+          allImageUrls.push(new URL(`../assets/images/weather/${w}/${r}.png`, import.meta.url).href);
+        });
+      });
+
+      allImageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+      });
+    };
+
+    preloadImages();
   }, []);
 
   // Determine sky phase based on time

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { RainCanvas } from './RainCanvas';
 
 export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [weatherImageUrl, setWeatherImageUrl] = useState(null);
+  const [flashType, setFlashType] = useState('flash-1');
 
   useEffect(() => {
     // Dynamically load the image based on phase and region
@@ -29,9 +31,15 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
     loadBackgroundImage();
   }, [phase, region, weather]);
 
+  // Randomize flash type when thunder triggers
+  useEffect(() => {
+    if (isThunderFlash) {
+      setFlashType(Math.random() > 0.5 ? 'flash-1' : 'flash-2');
+    }
+  }, [isThunderFlash]);
+
   const getGradient = () => {
-    // If weather is active, use a neutral dark backdrop
-    if (weather !== 'clear') return 'from-slate-900 to-black';
+    if (weather !== 'clear') return 'from-slate-950 via-slate-900 to-black';
 
     const gradients = {
       night: 'from-indigo-950 via-blue-950 to-slate-950',
@@ -46,10 +54,24 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
     return gradients[phase] || gradients.afternoon;
   };
 
+  // Generate stable random droplets
+  const droplets = useMemo(() => {
+    return [...Array(weather === 'clear' ? 0 : weather === 'rain' ? 60 : 120)].map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      size: Math.random() * 8 + 4, // Smaller base size
+      delay: `${Math.random() * 20}s`, // Longer stagger range
+      duration: `${Math.random() * 10 + 10}s`, // Varied lifespan
+      type: Math.random() > 0.8 ? 'dripping' : Math.random() > 0.4 ? 'small' : 'merged',
+      scale: 0.3 + Math.random() * 0.7 // Smaller scale
+    }));
+  }, [weather]);
+
   return (
     <div className={`absolute inset-0 sky-transition bg-gradient-to-b ${getGradient()} ${isThunderFlash ? 'animate-shake' : ''}`}>
       
-      {/* Dynamic Background Image (Only visible when clear) */}
+      {/* Background Images */}
       {imageUrl && weather === 'clear' && (
         <div 
           className="absolute inset-0 z-0 opacity-100 bg-cover bg-center transition-all duration-1000"
@@ -57,55 +79,45 @@ export const SkyBackground = ({ time, phase, region, weather, isThunderFlash }) 
         />
       )}
 
-      {/* Weather Background Image (Only visible when not clear) */}
       {weatherImageUrl && weather !== 'clear' && (
         <div 
-          className="absolute inset-0 z-10 opacity-100 bg-cover bg-center transition-all duration-1000"
+          className="absolute inset-0 z-0 opacity-100 bg-cover bg-center transition-all duration-1000"
           style={{ backgroundImage: `url(${weatherImageUrl})` }}
         />
       )}
 
-      {/* Weather Visual Effects Layers */}
-      
-      {/* Rain Effect (Falling) */}
+      {/* Fog Layer */}
+      <div className={`fog-layer ${['storm', 'flood'].includes(weather) ? 'visible' : ''}`} />
+
+      {/* Falling Rain (Canvas) */}
       {['rain', 'storm', 'flood'].includes(weather) && (
-        <div className="rain-overlay z-20">
-          {[...Array(weather === 'rain' ? 100 : 250)].map((_, i) => (
+        <RainCanvas weather={weather} />
+      )}
+
+      {/* Screen Droplets */}
+      {['rain', 'storm', 'flood'].includes(weather) && (
+        <div className="droplets-layer">
+          {droplets.map((drop) => (
             <div 
-              key={i} 
-              className="rain-drop" 
+              key={drop.id} 
+              className={`screen-droplet ${drop.type}`}
               style={{ 
-                left: `${Math.random() * 100}%`, 
-                animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${Math.random() * 0.2 + 0.3}s`,
-                opacity: Math.random() * 0.5 + 0.3
+                left: drop.left, 
+                top: drop.top,
+                width: `${drop.size}px`,
+                height: `${drop.size * 1.2}px`,
+                animationDelay: drop.delay,
+                animationDuration: drop.duration,
+                transform: `scale(${drop.scale})`
               }} 
             />
           ))}
+          <div className={`water-film ${weather !== 'clear' ? 'visible' : ''}`} />
         </div>
       )}
 
-      {/* Screen Droplets Effect (Water on lens) */}
-      {['rain', 'storm', 'flood'].includes(weather) && (
-        <div className="screen-droplets-container">
-          {[...Array(weather === 'rain' ? 50 : 100)].map((_, i) => (
-            <div 
-              key={i} 
-              className={`screen-droplet ${Math.random() > 0.6 ? 'dripping' : ''}`}
-              style={{ 
-                left: `${Math.random() * 100}%`, 
-                top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 10 + 5}px`,
-                height: `${Math.random() * 10 + 8}px`,
-                opacity: Math.random() * 0.7 + 0.3,
-                animationDelay: `${Math.random() * 10}s`
-              }} 
-            />
-          ))}
-        </div>
-      )}
-
-      <div className={`thunder-overlay z-50 transition-opacity duration-75 ${isThunderFlash ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Thunder Flash */}
+      <div className={`thunder-overlay ${isThunderFlash ? flashType : ''}`} />
     </div>
   );
 };

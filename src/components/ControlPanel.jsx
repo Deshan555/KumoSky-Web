@@ -74,21 +74,15 @@ export const ControlPanel = ({
           </div>
 
           <div className="relative group px-2">
-            <div className="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/10">
-              <div 
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 via-purple-500 to-orange-400 transition-all duration-300"
-                style={{ width: `${(time / 24) * 100}%` }}
-              ></div>
-              <input
-                type="range"
-                min="0"
-                max="24"
-                step="0.1"
-                value={time}
-                onChange={(e) => onTimeChange(parseFloat(e.target.value))}
-                className="absolute top-0 left-0 w-full h-full cursor-pointer z-10 appearance-none bg-transparent"
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="24"
+              step="0.1"
+              value={time}
+              onChange={(e) => onTimeChange(parseFloat(e.target.value))}
+              className="w-full cursor-pointer"
+            />
             
             <div className="flex justify-between text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mt-4">
               <span className={time < 6 ? 'text-white/80' : ''}>Midnight</span>
